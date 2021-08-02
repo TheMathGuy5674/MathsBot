@@ -1,2 +1,1 @@
-# MathsBot
-Bot for Math's Community
+so idk how github works but this is opensource discord bot im making ig
