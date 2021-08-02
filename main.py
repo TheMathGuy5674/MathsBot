@@ -3,7 +3,6 @@ import discord
 import random
 from discord.ext import commands
 from alive import keep_alive
-from discord.ext import slash
 
 prefix = '/'
 activity = discord.Activity(type=discord.ActivityType.watching, name="Math's Community")
@@ -56,7 +55,7 @@ async def _thiscommanddoesnotexist(ctx, *, question):
 @client.command()
 async def help(ctx):
     embed=discord.Embed(title='Help', color=0xe74c3c)
-    embed.add_field(name='What am I?', value='I' + line + 'm a custom bot made by Math.')
+    embed.add_field(name='What am I?', value='I' + line + 'm a custom bot made by Math.\nUpdate: Slash Commands will be added soon.')
     embed.add_field(name='Commands', value='8ball: Just a regular 8ball.\nping: A command to ping the bot.\nHelp: A command to show help info.')
     message = await ctx.send(embed=embed)
 
