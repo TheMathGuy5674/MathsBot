@@ -21,7 +21,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if client.user.mentioned_in(message):
-      embed=discord.Embed(title='Prefix', description='The current prefix is ' + prefix + '.\nConfused why you got this message? Well you pinged me!', color=0xe74c3c)
+      embed=discord.Embed(title='Prefix', description='The current prefix is % or slash commands.\nConfused why you got this message? Well you pinged me!', color=0xe74c3c)
       await message.channel.send(embed=embed)
     await client.process_commands(message)
 
@@ -120,32 +120,23 @@ async def ping(ctx):
     message = await ctx.send(embed=embed)
 
 @client.command()
-async def prefix(ctx):
-  await message.channel.send("prefix will be removed, this is just a place holder until i reset the slash commands")
-
-@slash.slash(description="not usable")
-async def prefix(ctx):
-  await message.channel.send("prefix will be removed, this is just a place holder until i reset the slash commands, just ping the bot")
-
-@client.command()
 async def help(ctx):
     embed=discord.Embed(title='Help', color=0xe74c3c)
-    embed.add_field(name='What am I?', value='I' + line + 'm a custom bot made by Math.\nUpdate: Slash Commands have been added!.')
-    embed.add_field(name='Commands', value='8ball: Just a regular 8ball.\nping: A command to ping the bot.\nHelp: A command to show help info.\nPrefix: Shows the current prefix, same can be done by pinging the bot.\nRR: Reaction Role (staff only + beta).')
+    embed.add_field(name='What am I?', value='I' + line + 'm a custom bot made by Math.\nLatest Update: Slash Commands have been added!.')
+    embed.add_field(name='Commands', value='8ball: Just a regular 8ball.\nping: A command to ping the bot.\nHelp: A command to show help info.\nEmbed: Make an embed.\nDice: Roll a dice.')
     message = await ctx.send(embed=embed)
 
 @slash.slash(description="Help for all of the commands.")
 async def help(ctx):
     embed=discord.Embed(title='Help', color=0xe74c3c)
     embed.add_field(name='What am I?', value='I' + line + 'm a custom bot made by Math.\nLatest Update: Slash commands have been added!')
-    embed.add_field(name='Commands', value='8ball: Just a regular 8ball.\nping: A command to ping the bot.\nHelp: A command to show help info.\nPrefix: Shows the current prefix, same can be done by pinging the bot.\nRR: Reaction Role (staff only + beta).')
+    embed.add_field(name='Commands', value='8ball: Just a regular 8ball.\nping: A command to ping the bot.\nHelp: A command to show help info.\nEmbed: Make an embed.\nDice: Roll a dice.')
     message = await ctx.send(embed=embed)
 
+# Not used currently.
 @client.command()
 @commands.has_any_role("Owner", "Admin")
 async def rr(ctx, emoji, role: discord.Role,*, message):
-    embed=discord.Embed(title=message, color=0xe74c3c)
-    message = await ctx.send(embed=embed)
     await message.add_reaction(emoji)
 
     with open('rr.json') as json_file:
@@ -164,26 +155,26 @@ async def rr(ctx, emoji, role: discord.Role,*, message):
     with open('rr.json','w') as j:
       json.dump(data,j,indent=4)
 
+
 @client.command()
-@commands.has_any_role("Owner", "Admin")
-async def rem(ctx, emoji, role: discord.Role, message):
-    await message.add_reaction(emoji)
+async def embed(ctx, til, desc):
+    embed=discord.Embed(title=til, description=desc, color=0xe74c3c)
+    message = await ctx.send(embed=embed)
 
-    with open('rr.json') as json_file:
-      data = json.load(json_file)
+@slash.slash(description="Make an embed.")
+async def embed(ctx, til, desc):
+    embed=discord.Embed(title=til, description=desc, color=0xe74c3c)
+    message = await ctx.send(embed=embed)
 
-      new_rr = {
-        'role_name':role.name,
-        'role_id':role.id,
-        'emoji':emoji,
-        'message_id':message
-      }
+@client.command
+async def dice(ctx):
+  embed=discord.Embed(title='Roll a dice!', description = 'You rolled a {}!'.format(random.randint(1, 6)),  color=0xe74c3c)
+  await ctx.send(embed=embed)
 
-      data.append(new_rr)
-
-
-    with open('rr.json','w') as j:
-      json.dump(data,j,indent=4)
+@slash.slash(description="Roll a dice!")
+async def dice(ctx):
+  embed=discord.Embed(title='Roll a dice!', description = 'You rolled a {}!'.format(random.randint(1, 6)),  color=0xe74c3c)
+  await ctx.send(embed=embed)
 
  
 keep_alive()
